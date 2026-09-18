@@ -67,6 +67,24 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(typeLoop, deleting ? 60 : 90);
   };
   if (typingEl) typeLoop();
+
+  const navList = document.getElementById("navList");
+  const indicator = document.getElementById("navIndicator");
+  if (navList && indicator) {
+    const links = navList.querySelectorAll("a");
+    const moveIndicator = (el) => {
+      const rect = el.getBoundingClientRect();
+      const parentRect = navList.getBoundingClientRect();
+      indicator.style.left = (rect.left - parentRect.left) + "px";
+      indicator.style.width = rect.width + "px";
+    };
+    links.forEach((link) => {
+      link.addEventListener("mouseenter", () => moveIndicator(link));
+    });
+    navList.addEventListener("mouseleave", () => {
+      indicator.style.width = "0px";
+    });
+  }
 });
 
 (function () {
