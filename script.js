@@ -59,3 +59,42 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   if (typingEl) typeLoop();
 });
+
+// Preloader style "jeu video / app store"
+(function () {
+  document.body.classList.add("is-loading");
+  const fill = document.getElementById("loaderFill");
+  const percentEl = document.getElementById("loaderPercent");
+  const preloader = document.getElementById("preloader");
+  if (!fill || !percentEl || !preloader) return;
+
+  let progress = 0;
+  const finish = () => {
+    fill.style.width = "100%";
+    percentEl.textContent = "100%";
+    setTimeout(() => {
+      preloader.classList.add("loaded");
+      document.body.classList.remove("is-loading");
+    }, 300);
+  };
+
+  const tick = () => {
+    const increment = Math.random() * 12 + 4;
+    progress = Math.min(progress + increment, 100);
+    fill.style.width = progress + "%";
+    percentEl.textContent = Math.floor(progress) + "%";
+    if (progress >= 100) {
+      finish();
+    } else {
+      setTimeout(tick, 180);
+    }
+  };
+
+  window.addEventListener("load", () => {
+    setTimeout(tick, 200);
+  });
+  // Fallback: force finish after 4s even if load event is slow
+  setTimeout(() => {
+    if (progress < 100) finish();
+  }, 4000);
+})();

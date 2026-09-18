@@ -4,11 +4,12 @@ Portfolio one-page inspiré du style dark/minimaliste "developer portfolio" (typ
 adapté aux attendus de l'épreuve E5 du BTS SIO.
 
 ## Structure
-- `index.html` — structure de la page (Hero, About, Skills, Projects, Veille techno, Contact)
-- `style.css` — thème dark, accent vert menthe, cartes, animations (reveal on scroll, glow, typing effect)
-- `script.js` — compteurs animés, effet de frappe (typing), animations au scroll
+- `index.html` — structure de la page (Preloader, Hero, About, Skills, Projects, Veille techno, Contact)
+- `style.css` — thème dark, accent vert menthe, cartes, animations (reveal on scroll, glow, typing, preloader)
+- `script.js` — compteurs animés, effet de frappe (typing), animations au scroll, écran de chargement
 
-## Animations ajoutées
+## Animations
+- Écran de chargement façon "jeu vidéo / app store" : logo, barre de progression animée avec effet shimmer, pourcentage qui monte jusqu'à 100%, puis fondu vers le site.
 - Apparition en cascade des éléments du hero (fade + translate).
 - Effet de frappe (typing) sur l'option de formation (SISR / SLAM / Cybersécurité / Développement).
 - Halo de fond animé en arrière-plan.
