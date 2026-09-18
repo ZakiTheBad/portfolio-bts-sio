@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prénom NOM — Portfolio BTS SIO</title>
+<title>Jawad MERDJI — Portfolio BTS SIO</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="noise"></div>
+<div class="bg-glow"></div>
 
-<header>
-  <div class="logo">P<span class="dot">.</span>NOM</div>
+<header class="reveal">
+  <div class="logo">J<span class="dot">.</span>MERDJI</div>
   <nav>
     <ul>
       <li><a href="#about">About</a></li>
@@ -26,22 +26,23 @@
 <main>
 
   <section id="hero">
-    <p class="greet">Hi, I'm</p>
-    <h1>Prénom <span class="accent">NOM</span></h1>
-    <p class="role">BTS SIO Student — Option <span class="mono">SISR / SLAM</span></p>
-    <p class="statut">🟢 Ouvert à une alternance / un stage</p>
-    <div class="cta">
+    <p class="greet fade-in" style="--d:0">Hi, I'm</p>
+    <h1 class="fade-in" style="--d:1">Jawad <span class="accent">MERDJI</span></h1>
+    <p class="role fade-in" style="--d:2">BTS SIO Student — Option <span class="mono typing" id="typing"></span></p>
+    <p class="statut fade-in" style="--d:3">🟢 Ouvert à une alternance / un stage</p>
+    <div class="cta fade-in" style="--d:4">
       <a class="btn primary" href="#projects">Voir mes projets</a>
       <a class="btn ghost" href="#" target="_blank">📄 CV</a>
     </div>
-    <div class="socials">
+    <div class="socials fade-in" style="--d:5">
       <a href="#" target="_blank">GitHub</a>
       <a href="#" target="_blank">LinkedIn</a>
-      <a href="mailto:prenom.nom@exemple.fr">Email</a>
+      <a href="mailto:jawad.merdji@exemple.fr">Email</a>
     </div>
+    <div class="scroll-cue"><span></span></div>
   </section>
 
-  <section id="about">
+  <section id="about" class="reveal">
     <span class="tag">// about-me</span>
     <blockquote>
       Étudiant en BTS SIO, curieux de tout ce qui touche aux systèmes, réseaux et développement.
@@ -64,7 +65,7 @@
     </div>
   </section>
 
-  <section id="skills">
+  <section id="skills" class="reveal">
     <span class="tag">// compétences</span>
     <h2>Ce que je sais faire</h2>
     <div class="grid">
@@ -91,7 +92,7 @@
     </div>
   </section>
 
-  <section id="projects">
+  <section id="projects" class="reveal">
     <span class="tag">// projets</span>
     <h2>Projets & Réalisations</h2>
 
@@ -123,7 +124,7 @@
     </div>
   </section>
 
-  <section id="watch">
+  <section id="watch" class="reveal">
     <span class="tag">// veille-techno</span>
     <h2>Veille technologique</h2>
     <div class="grid two">
@@ -138,17 +139,17 @@
     </div>
   </section>
 
-  <section id="contact">
+  <section id="contact" class="reveal">
     <span class="tag">// contact</span>
     <h2>On en discute ?</h2>
     <p>Toujours ouvert à une opportunité d'alternance, de stage, ou juste à échanger sur un projet.</p>
-    <a class="btn primary" href="mailto:prenom.nom@exemple.fr">Écrire un email</a>
+    <a class="btn primary" href="mailto:jawad.merdji@exemple.fr">Écrire un email</a>
   </section>
 
 </main>
 
-<footer>
-  <p>© 2026 Prénom NOM — Portfolio BTS SIO</p>
+<footer class="reveal">
+  <p>© 2026 Jawad MERDJI — Portfolio BTS SIO</p>
 </footer>
 
 <script src="script.js"></script>
