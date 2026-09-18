@@ -264,12 +264,6 @@ section:last-of-type { border-bottom: none; }
   display: inline-block;
 }
 .name-merdji .letters {
-  background: linear-gradient(90deg, #7dd3a8, #a8e6c8, #6bb8ff, #7dd3a8);
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: gradientShift 6s ease infinite;
   display: inline-flex;
 }
 @keyframes gradientShift {
@@ -279,7 +273,12 @@ section:last-of-type { border-bottom: none; }
 }
 .name-merdji .letters span {
   display: inline-block;
-  animation: letterFloat 3s ease-in-out infinite;
+  background: linear-gradient(90deg, #7dd3a8, #a8e6c8, #6bb8ff, #7dd3a8);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: letterFloat 3s ease-in-out infinite, gradientShift 4s ease infinite;
 }
 @keyframes letterFloat {
   0%, 100% { transform: translateY(0); }
