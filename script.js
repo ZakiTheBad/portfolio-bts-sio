@@ -1,5 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Animated counters
+  const lettersEl = document.querySelector(".name-merdji .letters");
+  if (lettersEl) {
+    const text = lettersEl.textContent;
+    lettersEl.innerHTML = "";
+    text.split("").forEach((ch, i) => {
+      const span = document.createElement("span");
+      span.textContent = ch;
+      span.style.animationDelay = (i * 0.12) + "s";
+      lettersEl.appendChild(span);
+    });
+  }
+
   const nums = document.querySelectorAll(".num");
   const animateNum = (el) => {
     const target = parseInt(el.dataset.target, 10);
@@ -17,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
     tick();
   };
 
-  // Reveal on scroll
   const reveals = document.querySelectorAll(".reveal");
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -30,7 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }, { threshold: 0.2 });
   reveals.forEach((el) => revealObserver.observe(el));
 
-  // Typing effect for the role option
   const typingEl = document.getElementById("typing");
   const words = ["SISR", "SLAM", "Cybersécurité", "Développement"];
   let wordIndex = 0;
@@ -60,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typingEl) typeLoop();
 });
 
-// Preloader style "jeu video / app store"
 (function () {
   document.body.classList.add("is-loading");
   const fill = document.getElementById("loaderFill");
@@ -93,8 +101,52 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("load", () => {
     setTimeout(tick, 200);
   });
-  // Fallback: force finish after 4s even if load event is slow
   setTimeout(() => {
     if (progress < 100) finish();
   }, 4000);
+})();
+
+(function () {
+  if (!window.matchMedia("(pointer: fine)").matches) return;
+  const dot = document.getElementById("cursorDot");
+  const ring = document.getElementById("cursorRing");
+  if (!dot || !ring) return;
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let ringX = mouseX;
+  let ringY = mouseY;
+
+  document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.left = mouseX + "px";
+    dot.style.top = mouseY + "px";
+  });
+
+  const animateRing = () => {
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+    ring.style.left = ringX + "px";
+    ring.style.top = ringY + "px";
+    requestAnimationFrame(animateRing);
+  };
+  animateRing();
+
+  document.addEventListener("mousedown", () => ring.classList.add("clicking"));
+  document.addEventListener("mouseup", () => ring.classList.remove("clicking"));
+
+  const hoverTargets = "a, button, .btn, .card, input, textarea";
+  document.querySelectorAll(hoverTargets).forEach((el) => {
+    el.addEventListener("mouseenter", () => ring.classList.add("hovering"));
+    el.addEventListener("mouseleave", () => ring.classList.remove("hovering"));
+  });
+
+  document.addEventListener("mouseleave", () => {
+    dot.style.opacity = "0";
+    ring.style.opacity = "0";
+  });
+  document.addEventListener("mouseenter", () => {
+    dot.style.opacity = "1";
+  });
 })();

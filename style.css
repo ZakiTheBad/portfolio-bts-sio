@@ -29,6 +29,47 @@ body.is-loading { overflow: hidden; }
 
 .mono { font-family: 'Courier New', monospace; }
 
+/* Custom cursor (desktop only) */
+@media (pointer: fine) {
+  body { cursor: none; }
+  a, button, .btn { cursor: none; }
+}
+.cursor-dot, .cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+@media (pointer: fine) {
+  .cursor-dot, .cursor-ring { display: block; }
+}
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  transition: opacity .2s ease, transform .15s ease;
+}
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid var(--accent);
+  opacity: .6;
+  transition: width .25s ease, height .25s ease, opacity .25s ease, border-color .25s ease, background .25s ease;
+}
+.cursor-ring.hovering {
+  width: 56px;
+  height: 56px;
+  background: var(--accent-soft);
+  opacity: 1;
+}
+.cursor-ring.clicking {
+  width: 26px;
+  height: 26px;
+}
+
 /* Preloader - style "jeu video / app store" */
 #preloader {
   position: fixed;
@@ -214,8 +255,37 @@ section:last-of-type { border-bottom: none; }
   position: relative;
 }
 .greet { color: var(--muted); font-size: 1.05rem; margin-bottom: 6px; }
-#hero h1 { font-size: 3.4rem; font-weight: 800; margin-bottom: 12px; }
-.accent { color: var(--accent); }
+#hero h1 { font-size: 3.4rem; font-weight: 800; margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 0.4ch; align-items: baseline; }
+
+.name-jawad { color: var(--text); }
+
+/* Animated gradient name */
+.name-merdji {
+  display: inline-block;
+}
+.name-merdji .letters {
+  background: linear-gradient(90deg, #7dd3a8, #a8e6c8, #6bb8ff, #7dd3a8);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 6s ease infinite;
+  display: inline-flex;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.name-merdji .letters span {
+  display: inline-block;
+  animation: letterFloat 3s ease-in-out infinite;
+}
+@keyframes letterFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
 .role { color: var(--muted); font-size: 1.15rem; margin-bottom: 12px; min-height: 1.6em; }
 .typing::after {
   content: '|';
