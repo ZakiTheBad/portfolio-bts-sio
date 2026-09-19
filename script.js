@@ -126,45 +126,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
 (function () {
   if (!window.matchMedia("(pointer: fine)").matches) return;
-  const dot = document.getElementById("cursorDot");
-  const ring = document.getElementById("cursorRing");
-  if (!dot || !ring) return;
+  const reticle = document.getElementById("cursorReticle");
+  if (!reticle) return;
 
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
-  let ringX = mouseX;
-  let ringY = mouseY;
 
   document.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    dot.style.left = mouseX + "px";
-    dot.style.top = mouseY + "px";
   });
 
-  const animateRing = () => {
-    ringX += (mouseX - ringX) * 0.18;
-    ringY += (mouseY - ringY) * 0.18;
-    ring.style.left = ringX + "px";
-    ring.style.top = ringY + "px";
-    requestAnimationFrame(animateRing);
+  const moveReticle = () => {
+    reticle.style.left = mouseX + "px";
+    reticle.style.top = mouseY + "px";
+    requestAnimationFrame(moveReticle);
   };
-  animateRing();
+  moveReticle();
 
-  document.addEventListener("mousedown", () => ring.classList.add("clicking"));
-  document.addEventListener("mouseup", () => ring.classList.remove("clicking"));
+  document.addEventListener("mousedown", () => reticle.classList.add("clicking"));
+  document.addEventListener("mouseup", () => reticle.classList.remove("clicking"));
 
   const hoverTargets = "a, button, .btn, .card, input, textarea";
   document.querySelectorAll(hoverTargets).forEach((el) => {
-    el.addEventListener("mouseenter", () => ring.classList.add("hovering"));
-    el.addEventListener("mouseleave", () => ring.classList.remove("hovering"));
+    el.addEventListener("mouseenter", () => reticle.classList.add("hovering"));
+    el.addEventListener("mouseleave", () => reticle.classList.remove("hovering"));
   });
 
-  document.addEventListener("mouseleave", () => {
-    dot.style.opacity = "0";
-    ring.style.opacity = "0";
-  });
-  document.addEventListener("mouseenter", () => {
-    dot.style.opacity = "1";
-  });
+  document.addEventListener("mouseleave", () => { reticle.style.opacity = "0"; });
+  document.addEventListener("mouseenter", () => { reticle.style.opacity = "1"; });
+
+  const TRAIL_COUNT = 6;
+  const trailDots = [];
+  for (let i = 0; i < TRAIL_COUNT; i++) {
+    const dot = document.createElement("div");
+    dot.className = "cursor-trail-dot";
+    const scale = 1 - i / TRAIL_COUNT;
+    dot.style.width = (5 * scale) + "px";
+    dot.style.height = (5 * scale) + "px";
+    dot.style.opacity = (0.5 * scale).toFixed(2);
+    document.body.appendChild(dot);
+    trailDots.push({ el: dot, x: mouseX, y: mouseY });
+  }
+
+  const animateTrail = () => {
+    let targetX = mouseX;
+    let targetY = mouseY;
+    trailDots.forEach((dot) => {
+      dot.x += (targetX - dot.x) * 0.35;
+      dot.y += (targetY - dot.y) * 0.35;
+      dot.el.style.left = dot.x + "px";
+      dot.el.style.top = dot.y + "px";
+      targetX = dot.x;
+      targetY = dot.y;
+    });
+    requestAnimationFrame(animateTrail);
+  };
+  animateTrail();
 })();

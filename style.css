@@ -29,67 +29,90 @@ body.is-loading { overflow: hidden; }
 
 .mono { font-family: 'Courier New', monospace; }
 
-/* ===== Custom cursor v2: inverted "difference" spotlight + spinning dashed ring ===== */
+/* ===== Custom cursor v3: camera-focus reticle with corner brackets + comet trail ===== */
 @media (pointer: fine) {
   body { cursor: none; }
   a, button, .btn { cursor: none; }
 }
-.cursor-dot, .cursor-ring {
+.cursor-reticle {
   position: fixed;
   top: 0; left: 0;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
   pointer-events: none;
   z-index: 10000;
   transform: translate(-50%, -50%);
   display: none;
+  transition: width .3s cubic-bezier(.34,1.56,.64,1), height .3s cubic-bezier(.34,1.56,.64,1);
 }
 @media (pointer: fine) {
-  .cursor-dot, .cursor-ring { display: block; }
+  .cursor-reticle { display: block; }
 }
-.cursor-dot {
-  width: 10px;
-  height: 10px;
-  background: #ffffff;
-  mix-blend-mode: difference;
-  transition: opacity .2s ease, width .2s ease, height .2s ease;
-}
-.cursor-ring {
-  width: 40px;
-  height: 40px;
-  border: 2px dashed #ffffff;
-  mix-blend-mode: difference;
-  opacity: .9;
-  animation: spinCursor 6s linear infinite;
-  transition: width .3s cubic-bezier(.34,1.56,.64,1), height .3s cubic-bezier(.34,1.56,.64,1), border-radius .3s ease, animation-duration .3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-@keyframes spinCursor {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-.cursor-ring.hovering {
+.cursor-reticle.hovering {
   width: 64px;
   height: 64px;
-  border-style: solid;
-  animation-duration: 1.6s;
 }
-.cursor-ring.clicking {
-  width: 30px;
-  height: 30px;
+.cursor-reticle.clicking {
+  width: 26px;
+  height: 26px;
 }
-.cursor-arrow {
-  opacity: 0;
-  transform: scale(0) rotate(0deg);
-  color: #ffffff;
-  font-size: 1.1rem;
-  font-weight: 900;
-  transition: opacity .2s ease, transform .3s cubic-bezier(.34,1.56,.64,1);
+
+.corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--accent);
+  transition: border-color .25s ease, transform .3s cubic-bezier(.34,1.56,.64,1);
 }
-.cursor-ring.hovering .cursor-arrow {
-  opacity: 1;
-  transform: scale(1) rotate(45deg);
+.corner.tl { top: 0; left: 0; border-right: none; border-bottom: none; border-radius: 3px 0 0 0; }
+.corner.tr { top: 0; right: 0; border-left: none; border-bottom: none; border-radius: 0 3px 0 0; }
+.corner.bl { bottom: 0; left: 0; border-right: none; border-top: none; border-radius: 0 0 0 3px; }
+.corner.br { bottom: 0; right: 0; border-left: none; border-top: none; border-radius: 0 0 3px 0; }
+
+.cursor-reticle.hovering .corner {
+  border-color: #ffffff;
+}
+.cursor-reticle.hovering .corner.tl { transform: translate(-4px, -4px); }
+.cursor-reticle.hovering .corner.tr { transform: translate(4px, -4px); }
+.cursor-reticle.hovering .corner.bl { transform: translate(-4px, 4px); }
+.cursor-reticle.hovering .corner.br { transform: translate(4px, 4px); }
+
+.cursor-center-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: background .25s ease, transform .25s ease;
+  animation: reticlePulse 1.6s ease-in-out infinite;
+}
+@keyframes reticlePulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.6); }
+}
+.cursor-reticle.hovering .cursor-center-dot {
+  background: #ffffff;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+/* Comet trail dots injected by JS */
+.cursor-trail-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+@media (pointer: fine) {
+  .cursor-trail-dot { display: block; }
 }
 
 /* Preloader - style "jeu video / app store" */
