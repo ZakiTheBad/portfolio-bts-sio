@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   reveals.forEach((el) => revealObserver.observe(el));
 
   const typingEl = document.getElementById("typing");
-  const words = ["SISR", "SLAM", "Cybersécurité", "Développement"];
+  const words = ["SISR", "Administration systeme", "Securite reseau", "Supervision"];
   let wordIndex = 0;
   let charIndex = 0;
   let deleting = false;
