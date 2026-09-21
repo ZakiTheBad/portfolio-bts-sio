@@ -245,6 +245,7 @@ nav a:hover {
   font-size: 1rem;
   transition: transform .25s ease, border-color .25s ease, background .3s ease;
   margin-left: 20px;
+  flex-shrink: 0;
 }
 #theme-toggle:hover { transform: scale(1.1) rotate(10deg); border-color: var(--accent); }
 
@@ -488,9 +489,57 @@ footer {
   border-top: 1px solid var(--border);
 }
 
+/* ===== Responsive mobile ===== */
 @media (max-width: 768px) {
-  header { flex-direction: column; gap: 14px; padding: 18px 6%; }
+  header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 6%;
+  }
+  .logo { order: 1; }
+  #theme-toggle { order: 2; margin-left: 8px; }
+  nav { order: 3; width: 100%; }
+  nav ul {
+    justify-content: center;
+    gap: 14px 18px;
+    row-gap: 10px;
+  }
+  nav a { font-size: 0.82rem; padding: 4px 2px; }
+  .nav-indicator { display: none; }
+
   main { padding: 0 6%; }
-  #hero h1 { font-size: 2.3rem; }
-  .stats { gap: 30px; }
+
+  #hero { min-height: auto; padding-top: 40px; padding-bottom: 60px; text-align: center; }
+  .greet { text-align: center; }
+  #hero h1 { font-size: 2.2rem; justify-content: center; gap: 0.3ch; }
+  .role { text-align: center; font-size: 1rem; }
+  .statut { margin-left: auto; margin-right: auto; }
+  .cta { justify-content: center; }
+  .btn { flex: 1 1 auto; text-align: center; min-width: 140px; }
+  .socials { justify-content: center; }
+  .scroll-cue { display: none; }
+
+  section { padding: 60px 0; }
+  h2 { font-size: 1.5rem; }
+
+  .stats { justify-content: center; text-align: center; gap: 30px; }
+  .stat { text-align: center; }
+
+  blockquote { padding-left: 16px; font-size: 1.05rem; }
+
+  .grid, .grid.two { grid-template-columns: 1fr; }
+
+  .card { padding: 20px; }
+
+  #contact { text-align: center; }
+  #contact p { margin-left: auto; margin-right: auto; }
+}
+
+@media (max-width: 420px) {
+  #hero h1 { font-size: 1.7rem; }
+  .loader-logo { font-size: 1.4rem; }
+  .loader-bar { width: 180px; }
+  .btn { width: 100%; }
 }
