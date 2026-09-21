@@ -184,3 +184,30 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   animateTrail();
 })();
+
+(function () {
+  const root = document.documentElement;
+  const btn = document.getElementById("theme-toggle");
+  const stored = localStorage.getItem("theme");
+  if (stored === "light") {
+    root.setAttribute("data-theme", "light");
+  }
+  function updateIcon() {
+    if (!btn) return;
+    btn.textContent = root.getAttribute("data-theme") === "light" ? "\ud83c\udf19" : "\u2600\ufe0f";
+  }
+  updateIcon();
+  if (btn) {
+    btn.addEventListener("click", () => {
+      const isLight = root.getAttribute("data-theme") === "light";
+      if (isLight) {
+        root.removeAttribute("data-theme");
+        localStorage.setItem("theme", "dark");
+      } else {
+        root.setAttribute("data-theme", "light");
+        localStorage.setItem("theme", "light");
+      }
+      updateIcon();
+    });
+  }
+})();
