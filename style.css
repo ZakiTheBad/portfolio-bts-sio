@@ -221,13 +221,35 @@ header::after {
   font-weight: 700;
   font-size: 1.2rem;
   transition: transform .3s ease, text-shadow .3s ease;
+  text-align: left;
+  white-space: nowrap;
+}
+.logo-first {
+  display: inline-block;
+  color: var(--text);
+  opacity: 0;
+  transform: translateX(-24px);
+  animation: logoSlideIn .6s cubic-bezier(.34,1.56,.64,1) forwards;
+  animation-delay: .35s;
+}
+.logo-last {
+  display: inline-block;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-24px);
+  animation: logoSlideIn .6s cubic-bezier(.34,1.56,.64,1) forwards;
+  animation-delay: .5s;
+}
+@keyframes logoSlideIn {
+  to { opacity: 1; transform: translateX(0); }
 }
 .logo:hover {
-  transform: scale(1.06);
   text-shadow: 0 0 14px rgba(167,139,250,0.6);
 }
-.logo .dot { color: var(--accent); animation: blink 1.4s steps(1) infinite; }
-@keyframes blink { 50% { opacity: 0; } }
+.logo:hover .logo-first,
+.logo:hover .logo-last {
+  transform: scale(1.05);
+}
 
 nav { position: relative; }
 nav ul {
