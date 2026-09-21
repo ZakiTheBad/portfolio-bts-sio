@@ -43,43 +43,6 @@ body.is-loading { overflow: hidden; }
 
 .mono { font-family: 'Courier New', monospace; }
 
-/* ===== Custom cursor v4: simple animated dot ===== */
-@media (pointer: fine) {
-  body { cursor: none; }
-  a, button, .btn { cursor: none; }
-}
-.cursor-dot {
-  position: fixed;
-  top: 0; left: 0;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--accent);
-  pointer-events: none;
-  z-index: 10000;
-  transform: translate(-50%, -50%);
-  display: none;
-  transition: width .25s cubic-bezier(.34,1.56,.64,1), height .25s cubic-bezier(.34,1.56,.64,1), background .25s ease, border-color .25s ease, opacity .2s ease;
-  animation: cursorPulse 1.8s ease-in-out infinite;
-}
-@media (pointer: fine) {
-  .cursor-dot { display: block; }
-}
-@keyframes cursorPulse {
-  0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); }
-  50% { box-shadow: 0 0 0 8px var(--accent-soft); }
-}
-.cursor-dot.hovering {
-  width: 30px;
-  height: 30px;
-  background: transparent;
-  border: 2px solid var(--accent);
-}
-.cursor-dot.clicking {
-  width: 9px;
-  height: 9px;
-}
-
 /* Preloader - style "jeu video / app store" */
 #preloader {
   position: fixed;
