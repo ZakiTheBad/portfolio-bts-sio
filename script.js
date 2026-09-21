@@ -126,88 +126,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
 (function () {
   if (!window.matchMedia("(pointer: fine)").matches) return;
-  const reticle = document.getElementById("cursorReticle");
-  if (!reticle) return;
+  const dot = document.getElementById("cursorDot");
+  if (!dot) return;
 
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
+  let dotX = mouseX;
+  let dotY = mouseY;
 
   document.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
   });
 
-  const moveReticle = () => {
-    reticle.style.left = mouseX + "px";
-    reticle.style.top = mouseY + "px";
-    requestAnimationFrame(moveReticle);
+  const animate = () => {
+    dotX += (mouseX - dotX) * 0.2;
+    dotY += (mouseY - dotY) * 0.2;
+    dot.style.left = dotX + "px";
+    dot.style.top = dotY + "px";
+    requestAnimationFrame(animate);
   };
-  moveReticle();
+  animate();
 
-  document.addEventListener("mousedown", () => reticle.classList.add("clicking"));
-  document.addEventListener("mouseup", () => reticle.classList.remove("clicking"));
+  document.addEventListener("mousedown", () => dot.classList.add("clicking"));
+  document.addEventListener("mouseup", () => dot.classList.remove("clicking"));
 
   const hoverTargets = "a, button, .btn, .card, input, textarea";
   document.querySelectorAll(hoverTargets).forEach((el) => {
-    el.addEventListener("mouseenter", () => reticle.classList.add("hovering"));
-    el.addEventListener("mouseleave", () => reticle.classList.remove("hovering"));
+    el.addEventListener("mouseenter", () => dot.classList.add("hovering"));
+    el.addEventListener("mouseleave", () => dot.classList.remove("hovering"));
   });
 
-  document.addEventListener("mouseleave", () => { reticle.style.opacity = "0"; });
-  document.addEventListener("mouseenter", () => { reticle.style.opacity = "1"; });
-
-  const TRAIL_COUNT = 6;
-  const trailDots = [];
-  for (let i = 0; i < TRAIL_COUNT; i++) {
-    const dot = document.createElement("div");
-    dot.className = "cursor-trail-dot";
-    const scale = 1 - i / TRAIL_COUNT;
-    dot.style.width = (5 * scale) + "px";
-    dot.style.height = (5 * scale) + "px";
-    dot.style.opacity = (0.5 * scale).toFixed(2);
-    document.body.appendChild(dot);
-    trailDots.push({ el: dot, x: mouseX, y: mouseY });
-  }
-
-  const animateTrail = () => {
-    let targetX = mouseX;
-    let targetY = mouseY;
-    trailDots.forEach((dot) => {
-      dot.x += (targetX - dot.x) * 0.35;
-      dot.y += (targetY - dot.y) * 0.35;
-      dot.el.style.left = dot.x + "px";
-      dot.el.style.top = dot.y + "px";
-      targetX = dot.x;
-      targetY = dot.y;
-    });
-    requestAnimationFrame(animateTrail);
-  };
-  animateTrail();
-})();
-
-(function () {
-  const root = document.documentElement;
-  const btn = document.getElementById("theme-toggle");
-  const stored = localStorage.getItem("theme");
-  if (stored === "light") {
-    root.setAttribute("data-theme", "light");
-  }
-  function updateIcon() {
-    if (!btn) return;
-    btn.textContent = root.getAttribute("data-theme") === "light" ? "\ud83c\udf19" : "\u2600\ufe0f";
-  }
-  updateIcon();
-  if (btn) {
-    btn.addEventListener("click", () => {
-      const isLight = root.getAttribute("data-theme") === "light";
-      if (isLight) {
-        root.removeAttribute("data-theme");
-        localStorage.setItem("theme", "dark");
-      } else {
-        root.setAttribute("data-theme", "light");
-        localStorage.setItem("theme", "light");
-      }
-      updateIcon();
-    });
-  }
+  document.addEventListener("mouseleave", () => { dot.style.opacity = "0"; });
+  document.addEventListener("mouseenter", () => { dot.style.opacity = "1"; });
 })();

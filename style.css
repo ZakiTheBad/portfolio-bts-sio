@@ -43,90 +43,41 @@ body.is-loading { overflow: hidden; }
 
 .mono { font-family: 'Courier New', monospace; }
 
-/* ===== Custom cursor v3: camera-focus reticle with corner brackets + comet trail ===== */
+/* ===== Custom cursor v4: simple animated dot ===== */
 @media (pointer: fine) {
   body { cursor: none; }
   a, button, .btn { cursor: none; }
 }
-.cursor-reticle {
+.cursor-dot {
   position: fixed;
   top: 0; left: 0;
-  width: 40px;
-  height: 40px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
   pointer-events: none;
   z-index: 10000;
   transform: translate(-50%, -50%);
   display: none;
-  transition: width .3s cubic-bezier(.34,1.56,.64,1), height .3s cubic-bezier(.34,1.56,.64,1);
+  transition: width .25s cubic-bezier(.34,1.56,.64,1), height .25s cubic-bezier(.34,1.56,.64,1), background .25s ease, border-color .25s ease, opacity .2s ease;
+  animation: cursorPulse 1.8s ease-in-out infinite;
 }
 @media (pointer: fine) {
-  .cursor-reticle { display: block; }
+  .cursor-dot { display: block; }
 }
-.cursor-reticle.hovering {
-  width: 64px;
-  height: 64px;
+@keyframes cursorPulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); }
+  50% { box-shadow: 0 0 0 8px var(--accent-soft); }
 }
-.cursor-reticle.clicking {
-  width: 26px;
-  height: 26px;
-}
-
-.corner {
-  position: absolute;
-  width: 12px;
-  height: 12px;
+.cursor-dot.hovering {
+  width: 30px;
+  height: 30px;
+  background: transparent;
   border: 2px solid var(--accent);
-  transition: border-color .25s ease, transform .3s cubic-bezier(.34,1.56,.64,1);
 }
-.corner.tl { top: 0; left: 0; border-right: none; border-bottom: none; border-radius: 3px 0 0 0; }
-.corner.tr { top: 0; right: 0; border-left: none; border-bottom: none; border-radius: 0 3px 0 0; }
-.corner.bl { bottom: 0; left: 0; border-right: none; border-top: none; border-radius: 0 0 0 3px; }
-.corner.br { bottom: 0; right: 0; border-left: none; border-top: none; border-radius: 0 0 3px 0; }
-
-.cursor-reticle.hovering .corner {
-  border-color: #ffffff;
-}
-.cursor-reticle.hovering .corner.tl { transform: translate(-4px, -4px); }
-.cursor-reticle.hovering .corner.tr { transform: translate(4px, -4px); }
-.cursor-reticle.hovering .corner.bl { transform: translate(-4px, 4px); }
-.cursor-reticle.hovering .corner.br { transform: translate(4px, 4px); }
-
-.cursor-center-dot {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 4px;
-  height: 4px;
-  background: var(--accent);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: background .25s ease, transform .25s ease;
-  animation: reticlePulse 1.6s ease-in-out infinite;
-}
-@keyframes reticlePulse {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  50% { transform: translate(-50%, -50%) scale(1.6); }
-}
-.cursor-reticle.hovering .cursor-center-dot {
-  background: #ffffff;
-  transform: translate(-50%, -50%) scale(0);
-}
-
-/* Comet trail dots injected by JS */
-.cursor-trail-dot {
-  position: fixed;
-  top: 0; left: 0;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  display: none;
-}
-@media (pointer: fine) {
-  .cursor-trail-dot { display: block; }
+.cursor-dot.clicking {
+  width: 9px;
+  height: 9px;
 }
 
 /* Preloader - style "jeu video / app store" */
