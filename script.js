@@ -85,6 +85,23 @@ document.addEventListener("DOMContentLoaded", () => {
       indicator.style.width = "0px";
     });
   }
+
+  const navToggle = document.getElementById("nav-toggle");
+  const mainNav = document.getElementById("mainNav");
+  if (navToggle && mainNav) {
+    navToggle.addEventListener("click", () => {
+      const isOpen = mainNav.classList.toggle("open");
+      navToggle.classList.toggle("open", isOpen);
+      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+    mainNav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mainNav.classList.remove("open");
+        navToggle.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
 });
 
 (function () {
@@ -122,4 +139,31 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     if (progress < 100) finish();
   }, 4000);
+})();
+
+(function () {
+  const root = document.documentElement;
+  const btn = document.getElementById("theme-toggle");
+  const stored = localStorage.getItem("theme");
+  if (stored === "light") {
+    root.setAttribute("data-theme", "light");
+  }
+  function updateIcon() {
+    if (!btn) return;
+    btn.textContent = root.getAttribute("data-theme") === "light" ? "\ud83c\udf19" : "\u2600\ufe0f";
+  }
+  updateIcon();
+  if (btn) {
+    btn.addEventListener("click", () => {
+      const isLight = root.getAttribute("data-theme") === "light";
+      if (isLight) {
+        root.removeAttribute("data-theme");
+        localStorage.setItem("theme", "dark");
+      } else {
+        root.setAttribute("data-theme", "light");
+        localStorage.setItem("theme", "light");
+      }
+      updateIcon();
+    });
+  }
 })();
