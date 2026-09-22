@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>En travaux — Jawad MERDJI</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .wip-wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .wip-icon {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    animation: wipBounce 2s ease-in-out infinite;
+  }
+  @keyframes wipBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .wip-wrap h1 {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+  .wip-wrap p {
+    color: var(--muted);
+    max-width: 420px;
+    margin-bottom: 28px;
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<div class="wip-wrap">
+  <div class="wip-icon">🚧</div>
+  <h1>Page en <span class="accent">travaux</span></h1>
+  <p>Ce lien n'est pas encore actif. Je suis en train de finaliser cette page — reviens un peu plus tard !</p>
+  <a class="btn primary" href="index.html">← Retour au portfolio</a>
+</div>
+
+</body>
+</html>
