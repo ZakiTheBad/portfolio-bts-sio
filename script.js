@@ -86,19 +86,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const navToggle = document.getElementById("nav-toggle");
-  const mainNav = document.getElementById("mainNav");
-  if (navToggle && mainNav) {
-    navToggle.addEventListener("click", () => {
-      const isOpen = mainNav.classList.toggle("open");
-      navToggle.classList.toggle("open", isOpen);
-      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  const themeToggle = document.getElementById("themeToggle");
+  const applyTheme = (theme) => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("portfolio-theme", theme);
+  };
+  const savedTheme = localStorage.getItem("portfolio-theme") ||
+    (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+  applyTheme(savedTheme);
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme");
+      applyTheme(current === "light" ? "dark" : "light");
     });
-    mainNav.querySelectorAll("a").forEach((link) => {
+  }
+
+  const burgerBtn = document.getElementById("burgerBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+  if (burgerBtn && mobileMenu) {
+    burgerBtn.addEventListener("click", () => {
+      burgerBtn.classList.toggle("open");
+      mobileMenu.classList.toggle("open");
+    });
+    mobileMenu.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
-        mainNav.classList.remove("open");
-        navToggle.classList.remove("open");
-        navToggle.setAttribute("aria-expanded", "false");
+        burgerBtn.classList.remove("open");
+        mobileMenu.classList.remove("open");
       });
     });
   }
@@ -142,28 +155,62 @@ document.addEventListener("DOMContentLoaded", () => {
 })();
 
 (function () {
-  const root = document.documentElement;
-  const btn = document.getElementById("theme-toggle");
-  const stored = localStorage.getItem("theme");
-  if (stored === "light") {
-    root.setAttribute("data-theme", "light");
+  if (!window.matchMedia("(pointer: fine)").matches) return;
+  const reticle = document.getElementById("cursorReticle");
+  if (!reticle) return;
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+
+  document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  const moveReticle = () => {
+    reticle.style.left = mouseX + "px";
+    reticle.style.top = mouseY + "px";
+    requestAnimationFrame(moveReticle);
+  };
+  moveReticle();
+
+  document.addEventListener("mousedown", () => reticle.classList.add("clicking"));
+  document.addEventListener("mouseup", () => reticle.classList.remove("clicking"));
+
+  const hoverTargets = "a, button, .btn, .card, input, textarea";
+  document.querySelectorAll(hoverTargets).forEach((el) => {
+    el.addEventListener("mouseenter", () => reticle.classList.add("hovering"));
+    el.addEventListener("mouseleave", () => reticle.classList.remove("hovering"));
+  });
+
+  document.addEventListener("mouseleave", () => { reticle.style.opacity = "0"; });
+  document.addEventListener("mouseenter", () => { reticle.style.opacity = "1"; });
+
+  const TRAIL_COUNT = 6;
+  const trailDots = [];
+  for (let i = 0; i < TRAIL_COUNT; i++) {
+    const dot = document.createElement("div");
+    dot.className = "cursor-trail-dot";
+    const scale = 1 - i / TRAIL_COUNT;
+    dot.style.width = (5 * scale) + "px";
+    dot.style.height = (5 * scale) + "px";
+    dot.style.opacity = (0.5 * scale).toFixed(2);
+    document.body.appendChild(dot);
+    trailDots.push({ el: dot, x: mouseX, y: mouseY });
   }
-  function updateIcon() {
-    if (!btn) return;
-    btn.textContent = root.getAttribute("data-theme") === "light" ? "\ud83c\udf19" : "\u2600\ufe0f";
-  }
-  updateIcon();
-  if (btn) {
-    btn.addEventListener("click", () => {
-      const isLight = root.getAttribute("data-theme") === "light";
-      if (isLight) {
-        root.removeAttribute("data-theme");
-        localStorage.setItem("theme", "dark");
-      } else {
-        root.setAttribute("data-theme", "light");
-        localStorage.setItem("theme", "light");
-      }
-      updateIcon();
+
+  const animateTrail = () => {
+    let targetX = mouseX;
+    let targetY = mouseY;
+    trailDots.forEach((dot) => {
+      dot.x += (targetX - dot.x) * 0.35;
+      dot.y += (targetY - dot.y) * 0.35;
+      dot.el.style.left = dot.x + "px";
+      dot.el.style.top = dot.y + "px";
+      targetX = dot.x;
+      targetY = dot.y;
     });
-  }
+    requestAnimationFrame(animateTrail);
+  };
+  animateTrail();
 })();
